@@ -85,4 +85,4 @@ Download or clone the repository and open `index.html` in any browser. That's it
 
 ## Author
 
-Swetha G, Amrita University
+SURYA BALA G, Amrita University
