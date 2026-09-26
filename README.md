@@ -2,8 +2,8 @@
 
 A mini healthcare support web app for an NGO. Patients and families can request free support, people can register as volunteers, and anyone can ask a question. Every submission is sorted by urgency automatically and gets an instant, personalised reply. A built-in FAQ chatbot answers common questions.
 
-**Live demo:** https://your-site-name.netlify.app  *(replace with your link)*
-**Source code:** https://github.com/your-username/sevai-health-desk  *(replace with your link)*
+**Live demo:** https://sparkly-gumdrop-000e44.netlify.app/
+**Source code:** https://github.com/SURYABALA03/sevai-health-desk
 
 ---
 
