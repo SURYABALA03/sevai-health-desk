@@ -1,0 +1,1108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sevai Health Desk | Patient support and volunteers</title>
+  <meta name="description" content="Request free patient support, register as a volunteer, or ask a question. Requests are sorted by urgency automatically.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+/* Sevai Health Desk: styles */
+:root {
+  --ink: #16323d;
+  --muted: #56707a;
+  --teal: #0f5c6e;
+  --teal-d: #0a4351;
+  --mint: #e4f1ec;
+  --bg: #f4f8f6;
+  --paper: #ffffff;
+  --line: #d3e3dd;
+  --amber: #d98e1f;
+  --amber-bg: #fdf1dc;
+  --amber-ink: #7d500c;
+  --red: #b3372f;
+  --red-bg: #fbe7e5;
+  --green: #2e7a57;
+  --green-bg: #e3f3ea;
+  --radius-s: 6px;
+  --radius-m: 12px;
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Figtree', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { margin: 0; font-family: var(--font-body); font-size: 1rem; line-height: 1.55; color: var(--ink); background: var(--bg); }
+[hidden] { display: none !important; }
+
+.wrap { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
+
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(2rem, 4.6vw, 3.3rem); font-weight: 700; max-width: 18ch; }
+h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 700; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0 0 1em; max-width: 65ch; }
+a { color: var(--teal); }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; z-index: 100; background: #fff; padding: 0.5rem 1rem; }
+
+/* Top bar */
+.topbar { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.85rem; }
+.brand { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+.brand-mark { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 8px; background: var(--teal); color: #fff; font-size: 1.45rem; line-height: 1; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { color: var(--ink); text-decoration: none; font-weight: 500; }
+.topbar nav a:hover { color: var(--teal); text-decoration: underline; }
+
+.emergency-strip { margin: 0; max-width: none; background: var(--red-bg); color: var(--red); text-align: center; padding: 0.55rem 1rem; font-size: 0.92rem; }
+.emergency-strip a { color: var(--red); font-weight: 700; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.85rem 1.3rem; border: 1.5px solid transparent; border-radius: var(--radius-s); font: 600 1rem/1 var(--font-body); text-decoration: none; cursor: pointer; transition: background-color 0.15s, border-color 0.15s; }
+.btn-primary { background: var(--teal); color: #fff; }
+.btn-primary:hover { background: var(--teal-d); }
+.btn-ghost { background: transparent; border-color: var(--teal); color: var(--teal); }
+.btn-ghost:hover { background: var(--mint); }
+.btn-danger { background: transparent; border-color: var(--red); color: var(--red); }
+.btn-danger:hover { background: var(--red-bg); }
+.btn-sm { padding: 0.6rem 0.95rem; font-size: 0.92rem; }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: center; padding-block: 4rem 3rem; }
+.hero-text p { font-size: 1.125rem; color: var(--muted); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+.triage-demo { background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--amber); border-radius: var(--radius-m); padding: 1.5rem; }
+.demo-caption { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+.demo-msg { font-size: 1.05rem; font-style: italic; }
+.demo-route { font-size: 0.92rem; color: var(--muted); margin: 1rem 0 0; }
+
+.tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag { display: inline-block; padding: 0.25rem 0.65rem; border-radius: 999px; background: var(--mint); color: var(--teal-d); font-size: 0.85rem; font-weight: 600; }
+.tag-high { background: var(--red-bg); color: var(--red); }
+.tag-medium { background: var(--amber-bg); color: var(--amber-ink); }
+.tag-low { background: var(--green-bg); color: var(--green); }
+
+/* Request section */
+.request { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.5rem; align-items: start; padding-block: 2rem 4rem; }
+.form-col { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-m); padding: clamp(1.25rem, 3vw, 2.25rem); }
+
+form fieldset { border: 0; padding: 0; margin: 0 0 1.25rem; min-width: 0; }
+legend { padding: 0; margin-bottom: 0.5rem; font-weight: 600; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pills label { position: relative; }
+.pills input { position: absolute; opacity: 0; }
+.pills span { display: block; padding: 0.6rem 1rem; border: 1.5px solid var(--line); border-radius: 999px; font-weight: 500; cursor: pointer; }
+.pills input:checked + span { background: var(--teal); border-color: var(--teal); color: #fff; }
+.pills input:focus-visible + span { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+.field { margin-bottom: 1.1rem; }
+.field > label { display: block; margin-bottom: 0.35rem; font-weight: 600; font-size: 0.95rem; }
+.opt { font-weight: 400; color: var(--muted); }
+
+input:not([type="radio"]):not([type="checkbox"]), select, textarea {
+  width: 100%; padding: 0.7rem 0.8rem; border: 1.5px solid var(--line); border-radius: var(--radius-s);
+  background: #fff; color: inherit; font: inherit;
+}
+textarea { resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--teal); outline: none; box-shadow: 0 0 0 3px rgba(15, 92, 110, 0.18); }
+.invalid input:not([type="checkbox"]), .invalid select, .invalid textarea { border-color: var(--red); }
+.invalid .checks label { border-color: var(--red); }
+
+.err { display: block; margin-top: 0.3rem; color: var(--red); font-size: 0.86rem; }
+.err:empty { display: none; }
+.hint { display: block; margin-top: 0.3rem; color: var(--muted); font-size: 0.86rem; }
+
+.checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 0.5rem; }
+.checks label { display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.75rem; border: 1.5px solid var(--line); border-radius: var(--radius-s); font-weight: 500; cursor: pointer; }
+.checks input, .consent input { width: 1.05rem; height: 1.05rem; accent-color: var(--teal); flex-shrink: 0; }
+.consent label { display: flex; align-items: flex-start; gap: 0.6rem; font-weight: 400; }
+.consent input { margin-top: 0.25rem; }
+
+/* Result after submitting */
+.result:focus { outline: none; }
+.result-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.75rem; }
+.ref { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--teal); }
+.triage-box { margin: 1rem 0; padding: 0.9rem 1.1rem; background: var(--bg); border-left: 5px solid var(--line); border-radius: var(--radius-s); }
+.triage-box.level-high { border-left-color: var(--red); }
+.triage-box.level-medium { border-left-color: var(--amber); }
+.triage-box.level-low { border-left-color: var(--green); }
+.triage-title { font-weight: 600; margin-bottom: 0.5rem; }
+.triage-why { font-size: 0.9rem; color: var(--muted); margin: 0.6rem 0 0; }
+.reply-label { font-weight: 600; margin: 1.25rem 0 0.4rem; }
+.reply { white-space: pre-wrap; margin-bottom: 1.25rem; padding: 1.1rem; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-s); font-size: 0.97rem; }
+.result-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+/* Side column */
+.next-col { position: sticky; top: 5.5rem; }
+.steps { list-style: none; counter-reset: step; padding: 0; margin: 0 0 1.5rem; }
+.steps li { counter-increment: step; position: relative; padding-left: 2.75rem; margin-bottom: 1.25rem; }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: -0.1rem; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--mint); color: var(--teal-d); font-family: var(--font-display); font-weight: 700; }
+.faq-nudge { padding: 1rem 1.2rem; background: var(--mint); border-radius: var(--radius-m); }
+.linkish { padding: 0; border: 0; background: none; color: var(--teal); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+
+/* Dashboard */
+.dash { padding-block: 3.5rem; background: var(--paper); border-top: 1px solid var(--line); }
+.dash-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-bottom: 1.5rem; }
+.dash-head p { margin: 0; color: var(--muted); }
+.dash-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius-m); overflow: hidden; }
+.stat { padding: 1rem 1.25rem; border-right: 1px solid var(--line); }
+.stat:last-child { border-right: 0; }
+.stat b { display: block; font-family: var(--font-display); font-size: 2rem; line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.9rem; }
+.stat.alert b { color: var(--red); }
+
+.summary { margin-bottom: 1.75rem; padding: 1.25rem 1.5rem; background: var(--mint); border-radius: var(--radius-m); }
+.summary p { margin: 0; }
+
+.table-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+.table-tools h3 { margin: 0; }
+.filter-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 500; }
+.filter-label select { width: auto; padding-block: 0.45rem; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-m); }
+table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 0.94rem; }
+th, td { padding: 0.75rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { background: var(--bg); font-weight: 600; }
+tbody tr:last-child td { border-bottom: 0; }
+.cell-sub { display: block; color: var(--muted); font-size: 0.85rem; }
+.empty { padding: 2rem; text-align: center; color: var(--muted); }
+
+footer { padding-block: 2rem 6rem; color: var(--muted); font-size: 0.9rem; }
+
+/* Chatbot */
+.chat-toggle { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 40; display: flex; align-items: center; gap: 0.5rem; padding: 0.9rem 1.3rem; border: 0; border-radius: 999px; background: var(--teal); color: #fff; font: 600 1rem var(--font-body); cursor: pointer; box-shadow: 0 6px 18px rgba(10, 67, 81, 0.3); }
+.chat-toggle:hover { background: var(--teal-d); }
+.chat { position: fixed; right: 1.25rem; bottom: 5rem; z-index: 41; display: flex; flex-direction: column; width: min(380px, calc(100vw - 2rem)); height: min(560px, calc(100vh - 7rem)); overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 18px 40px rgba(10, 67, 81, 0.22); }
+.chat-head { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1rem; background: var(--teal); color: #fff; }
+.chat-head span { display: block; font-size: 0.82rem; opacity: 0.85; }
+.chat-close { padding: 0.2rem 0.45rem; border: 0; background: none; color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.chat-log { flex: 1; display: flex; flex-direction: column; gap: 0.6rem; padding: 1rem; overflow-y: auto; background: var(--bg); }
+.msg { max-width: 86%; padding: 0.65rem 0.85rem; border-radius: 12px; font-size: 0.94rem; white-space: pre-wrap; }
+.msg.bot { align-self: flex-start; background: #fff; border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+.msg.user { align-self: flex-end; background: var(--teal); color: #fff; border-bottom-right-radius: 4px; }
+.msg.warn { background: var(--red-bg); border-color: #ebc3bf; }
+.msg .btn { display: flex; width: fit-content; margin-top: 0.6rem; }
+.typing { display: inline-flex; gap: 4px; padding-block: 0.3rem; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
+.typing i:nth-child(2) { animation-delay: 0.15s; }
+.typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes blink { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.6rem 1rem; background: #fff; border-top: 1px solid var(--line); }
+.chip { padding: 0.35rem 0.75rem; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; color: var(--teal-d); font: 500 0.85rem var(--font-body); cursor: pointer; }
+.chip:hover { border-color: var(--teal); }
+.chat-input { display: flex; gap: 0.5rem; padding: 0.75rem; border-top: 1px solid var(--line); }
+.chat-input input { flex: 1; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .hero, .request { grid-template-columns: 1fr; }
+  .hero { gap: 2rem; padding-block: 2.5rem 1.5rem; }
+  .next-col { position: static; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(2) { border-right: 0; }
+  .stat:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .grid2 { grid-template-columns: 1fr; }
+  .topbar nav { gap: 0.9rem; font-size: 0.92rem; }
+  .topbar nav a:nth-child(2) { display: none; }
+  .brand { font-size: 1rem; }
+  .chat { right: 1rem; bottom: 4.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+</style>
+</head>
+<body>
+  <a class="skip" href="#request">Skip to the form</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true">+</span>
+        <span>Sevai Health Desk</span>
+      </a>
+      <nav aria-label="Main">
+        <a href="#request" data-pick="support">Get help</a>
+        <a href="#request" data-pick="volunteer">Volunteer</a>
+        <a href="#dashboard">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <p class="emergency-strip">
+    Medical emergency? Call <a href="tel:108">108</a> for an ambulance or <a href="tel:112">112</a>. This desk is not an emergency service.
+  </p>
+
+  <section class="hero wrap">
+    <div class="hero-text">
+      <h1>Tell us what you need. We'll get it to the right volunteer.</h1>
+      <p>Sevai connects patients and families with free doctor consultations, medicines, blood donors and hospital transport through a network of local volunteers. Every request is read, sorted by urgency and answered.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#request" data-pick="support">Request support</a>
+        <a class="btn btn-ghost" href="#request" data-pick="volunteer">Join as a volunteer</a>
+      </div>
+    </div>
+
+    <aside class="triage-demo" aria-label="Example of how a request is sorted">
+      <p class="demo-caption">How a request gets sorted</p>
+      <p class="demo-msg">"My father needs dialysis this week and we can't afford the auto fare to the hospital."</p>
+      <ul class="tags">
+        <li class="tag tag-medium">Medium priority</li>
+        <li class="tag">Transport</li>
+        <li class="tag">Financial aid</li>
+      </ul>
+      <p class="demo-route">Sent to: patient transport volunteers and the medical aid fund desk</p>
+    </aside>
+  </section>
+
+  <main>
+    <section id="request" class="wrap request">
+      <div class="form-col">
+        <div id="formWrap">
+          <h2 id="formTitle">Request patient support</h2>
+
+          <form id="mainForm" novalidate>
+            <fieldset class="type-picker">
+              <legend>I want to</legend>
+              <div class="pills">
+                <label><input type="radio" name="type" value="support" checked><span>Get patient support</span></label>
+                <label><input type="radio" name="type" value="volunteer"><span>Volunteer</span></label>
+                <label><input type="radio" name="type" value="contact"><span>Ask a question</span></label>
+              </div>
+            </fieldset>
+
+            <div class="grid2">
+              <div class="field" data-field>
+                <label for="name">Full name</label>
+                <input id="name" name="name" required autocomplete="name" data-msg="Enter your full name">
+                <small class="err"></small>
+              </div>
+              <div class="field" data-field>
+                <label for="phone">Mobile number</label>
+                <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="10-digit number" data-msg="Enter your mobile number">
+                <small class="err"></small>
+              </div>
+              <div class="field" data-field>
+                <label for="email">Email <span class="opt">(optional)</span></label>
+                <input id="email" name="email" type="email" autocomplete="email">
+                <small class="err"></small>
+              </div>
+              <div class="field" data-field>
+                <label for="city">City or area</label>
+                <input id="city" name="city" required autocomplete="address-level2" data-msg="Enter your city or area">
+                <small class="err"></small>
+              </div>
+            </div>
+
+            <!-- Patient support fields -->
+            <div class="group" data-for="support">
+              <div class="grid2">
+                <div class="field" data-field>
+                  <label for="patientAge">Patient's age</label>
+                  <input id="patientAge" name="patientAge" type="number" min="0" max="120" inputmode="numeric" required data-msg="Enter the patient's age">
+                  <small class="err"></small>
+                </div>
+                <div class="field" data-field>
+                  <label for="need">Type of help</label>
+                  <select id="need" name="need" required data-msg="Choose the type of help you need">
+                    <option value="">Choose one</option>
+                    <option>Doctor consultation</option>
+                    <option>Medicines</option>
+                    <option>Financial aid</option>
+                    <option>Blood donation</option>
+                    <option>Mental health</option>
+                    <option>Transport</option>
+                    <option>Elder care</option>
+                    <option>Other</option>
+                  </select>
+                  <small class="err"></small>
+                </div>
+              </div>
+              <div class="field" data-field>
+                <label for="details">Describe the situation</label>
+                <textarea id="details" name="details" rows="5" required minlength="20" data-msg="Describe the situation so we can help" placeholder="For example: My father has had a high fever for three days and we need a doctor to visit."></textarea>
+                <small class="hint">Mention symptoms, dates and anything urgent. This helps us decide who to call first.</small>
+                <small class="err"></small>
+              </div>
+            </div>
+
+            <!-- Volunteer fields -->
+            <div class="group" data-for="volunteer" hidden>
+              <fieldset class="field" data-field>
+                <legend>How can you help?</legend>
+                <div class="checks">
+                  <label><input type="checkbox" name="skills" value="Medical"> Medical (doctor, nurse)</label>
+                  <label><input type="checkbox" name="skills" value="Driving"> Driving</label>
+                  <label><input type="checkbox" name="skills" value="Counselling"> Counselling</label>
+                  <label><input type="checkbox" name="skills" value="Teaching"> Teaching</label>
+                  <label><input type="checkbox" name="skills" value="Fundraising"> Fundraising</label>
+                  <label><input type="checkbox" name="skills" value="Tech"> Tech and data</label>
+                </div>
+                <small class="err"></small>
+              </fieldset>
+              <div class="field" data-field>
+                <label for="availability">When are you usually free?</label>
+                <select id="availability" name="availability" required data-msg="Choose when you're usually free">
+                  <option value="">Choose one</option>
+                  <option>Weekday mornings</option>
+                  <option>Weekday evenings</option>
+                  <option>Weekends</option>
+                  <option>Flexible</option>
+                </select>
+                <small class="err"></small>
+              </div>
+              <div class="field" data-field>
+                <label for="volMessage">Anything else we should know? <span class="opt">(optional)</span></label>
+                <textarea id="volMessage" name="message" rows="3" placeholder="Languages you speak, whether you have a vehicle, past experience"></textarea>
+                <small class="err"></small>
+              </div>
+            </div>
+
+            <!-- Contact fields -->
+            <div class="group" data-for="contact" hidden>
+              <div class="field" data-field>
+                <label for="subject">Subject</label>
+                <input id="subject" name="subject" required data-msg="Add a subject">
+                <small class="err"></small>
+              </div>
+              <div class="field" data-field>
+                <label for="conMessage">Your question</label>
+                <textarea id="conMessage" name="message" rows="5" required minlength="10" data-msg="Type your question"></textarea>
+                <small class="err"></small>
+              </div>
+            </div>
+
+            <div class="field consent" data-field>
+              <label><input type="checkbox" id="consent" name="consent"> I agree that Sevai volunteers may contact me about this.</label>
+              <small class="err"></small>
+            </div>
+
+            <button class="btn btn-primary" type="submit" id="submitBtn">Send request</button>
+          </form>
+        </div>
+
+        <div id="result" class="result" hidden tabindex="-1" aria-live="polite"></div>
+      </div>
+
+      <aside class="next-col">
+        <h3>What happens after you send it</h3>
+        <ol class="steps">
+          <li><strong>Instant reply.</strong> You get a reference number and an automatic message with next steps.</li>
+          <li><strong>Sorted by urgency.</strong> Our triage assistant looks for warning signs like chest pain or breathing trouble, so urgent requests are read first.</li>
+          <li><strong>A volunteer calls you.</strong> Usually within 24 hours, and within 2 hours for urgent requests.</li>
+        </ol>
+        <p class="faq-nudge">Have a quick question? <button type="button" class="linkish" id="openChatAside">Ask the help assistant</button></p>
+      </aside>
+    </section>
+
+    <section id="dashboard" class="dash">
+      <div class="wrap">
+        <div class="dash-head">
+          <div>
+            <h2>Coordinator dashboard</h2>
+            <p>Submissions saved in this browser. A real deployment would read from a shared database.</p>
+          </div>
+          <div class="dash-actions">
+            <button type="button" class="btn btn-ghost btn-sm" id="sampleBtn">Load sample data</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="exportBtn">Export CSV</button>
+            <button type="button" class="btn btn-danger btn-sm" id="clearBtn">Clear all</button>
+          </div>
+        </div>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="summary">
+          <h3>Automatic summary</h3>
+          <p id="summaryText"></p>
+        </div>
+
+        <div class="table-tools">
+          <h3>Submissions</h3>
+          <label class="filter-label">Show
+            <select id="filter">
+              <option value="all">All</option>
+              <option value="high">High priority only</option>
+              <option value="support">Patient support</option>
+              <option value="volunteer">Volunteers</option>
+              <option value="contact">Questions</option>
+            </select>
+          </label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Reference</th><th>Type</th><th>Person</th><th>Details</th><th>Priority</th></tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>Sevai Health Desk is a concept prototype built for an NGO use-case, not a real service. In an emergency, call 108 or 112.</p>
+  </footer>
+
+  <!-- FAQ chatbot -->
+  <button type="button" id="chatToggle" class="chat-toggle" aria-expanded="false" aria-controls="chatPanel">
+    <span aria-hidden="true">💬</span> Help assistant
+  </button>
+
+  <section id="chatPanel" class="chat" hidden aria-label="Help assistant">
+    <header class="chat-head">
+      <div>
+        <strong>Sevai help assistant</strong>
+        <span>Answers common questions instantly</span>
+      </div>
+      <button type="button" class="chat-close" id="chatClose" aria-label="Close help assistant">×</button>
+    </header>
+    <div id="chatLog" class="chat-log" role="log" aria-live="polite"></div>
+    <div id="chips" class="chips"></div>
+    <form id="chatForm" class="chat-input">
+      <input id="chatInput" autocomplete="off" placeholder="Type your question" aria-label="Your question">
+      <button type="submit" class="btn btn-primary btn-sm">Send</button>
+    </form>
+  </section>
+
+  <script>
+/* Sevai Health Desk: app logic
+ * 1. Form handling + validation
+ * 2. AI triage (rule-based NLP): urgency + category detection
+ * 3. Auto-generated reply for every submission
+ * 4. Coordinator dashboard with an automatic summary
+ * 5. FAQ chatbot
+ */
+(() => {
+  'use strict';
+
+  /* ---------- Helpers ---------- */
+  const KEY = 'sevai_submissions_v1';
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // Matches a keyword at the start of a word, so "pregnan" matches "pregnant" but "icu" doesn't match "particular"
+  const has = (text, word) => new RegExp('\\b' + reEsc(word), 'i').test(text);
+  const joinList = (arr) => arr.length <= 1 ? (arr[0] || '') : arr.slice(0, -1).join(', ') + ' and ' + arr[arr.length - 1];
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  const truncate = (s, n) => (s && s.length > n ? s.slice(0, n - 1) + '…' : s || '');
+  const normPhone = (p) => {
+    let d = String(p).replace(/\D/g, '');
+    if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
+    if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
+    return d;
+  };
+  const fmtDate = (iso) => new Date(iso).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+  const makeRef = () => 'SEV-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Storage (browser localStorage) ---------- */
+  const store = {
+    all() {
+      try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; }
+    },
+    save(list) {
+      try { localStorage.setItem(KEY, JSON.stringify(list)); return true; } catch { return false; }
+    },
+    add(item) {
+      const list = this.all();
+      list.unshift(item);
+      return this.save(list);
+    },
+  };
+
+  /* ---------- AI triage: keyword-based urgency and category detection ---------- */
+  const URGENT = ['emergency', 'urgent', 'unconscious', 'not breathing', 'breathing difficulty', "can't breathe", 'cannot breathe',
+    'chest pain', 'heart attack', 'stroke', 'bleeding', 'accident', 'seizure', 'severe', 'critical', 'icu', 'ventilator',
+    'poison', 'overdose', 'suicide', 'kill myself', 'end my life', 'want to die'];
+  const MEDIUM = ['fever', 'pain', 'infection', 'surgery', 'operation', 'dialysis', 'chemo', 'cancer', 'pregnan', 'delivery',
+    'diabetes', 'insulin', 'fracture', 'vomit', 'diarrh', 'wound', 'this week', 'tomorrow', 'today', 'running out',
+    "can't afford", 'cannot afford', 'no money'];
+  const CRISIS = ['suicide', 'kill myself', 'end my life', 'want to die', 'self harm', 'self-harm', 'hurt myself'];
+  const EMERGENCY_CHAT = ['emergency', 'unconscious', 'not breathing', "can't breathe", 'cannot breathe', 'chest pain',
+    'heart attack', 'stroke', 'bleeding', 'accident', 'seizure', 'poison', 'overdose'];
+
+  const CATEGORIES = {
+    'Doctor consultation': ['doctor', 'consult', 'checkup', 'check-up', 'specialist', 'symptom', 'fever'],
+    'Medicines': ['medicine', 'tablet', 'insulin', 'prescription', 'inhaler', 'pharmacy'],
+    'Financial aid': ['money', 'afford', 'cost', 'bill', 'expensive', 'fees', 'loan', 'financial'],
+    'Blood donation': ['blood', 'donor', 'platelet', 'transfusion'],
+    'Mental health': ['stress', 'anxiety', 'depress', 'lonely', 'panic', 'mental', 'suicide', 'want to die'],
+    'Transport': ['transport', 'ambulance', 'travel', 'vehicle', 'auto fare', 'fare', 'pick up', 'pickup'],
+    'Elder care': ['elderly', 'old age', 'bedridden', 'caregiver'],
+  };
+  const TEAMS = {
+    'Doctor consultation': 'volunteer doctors',
+    'Medicines': 'medicine bank',
+    'Financial aid': 'medical aid fund desk',
+    'Blood donation': 'blood donor network',
+    'Mental health': 'listening-line counsellors',
+    'Transport': 'patient transport volunteers',
+    'Elder care': 'elder care volunteers',
+    'General support': 'help desk team',
+  };
+  const KEEP_READY = {
+    'Doctor consultation': "the patient's recent prescriptions or test reports",
+    'Medicines': 'a photo or list of the prescription',
+    'Financial aid': 'the hospital bill or cost estimate',
+    'Blood donation': "the patient's blood group, hospital name and units needed",
+    'Mental health': 'a time when you can talk privately',
+    'Transport': 'pickup address, hospital name, and date and time of the visit',
+    'Elder care': 'a list of the medicines the patient takes',
+  };
+  const RESPONSE_TIME = { High: 'within 2 hours', Medium: 'within 12 hours', Low: 'within 24 to 48 hours' };
+  const SKILL_PROGRAMS = {
+    Medical: 'health camps and tele-consult follow-ups',
+    Driving: 'patient transport',
+    Counselling: 'the listening line',
+    Teaching: 'health awareness sessions',
+    Fundraising: 'medical aid drives',
+    Tech: 'the help desk and data team',
+  };
+
+  function triage({ details = '', need = '', patientAge = '' }) {
+    const text = details.toLowerCase();
+    const reasons = [];
+    const urgentHits = URGENT.filter((w) => has(text, w));
+    const mediumHits = MEDIUM.filter((w) => has(text, w));
+    let score = urgentHits.length * 3 + mediumHits.length;
+
+    if (urgentHits.length) reasons.push(`mentions "${urgentHits.slice(0, 2).join('", "')}"`);
+    else if (mediumHits.length) reasons.push(`mentions "${mediumHits.slice(0, 2).join('", "')}"`);
+
+    const age = Number(patientAge);
+    if (patientAge !== '' && !Number.isNaN(age) && (age >= 65 || age <= 5)) {
+      score += 1;
+      reasons.push(age >= 65 ? 'patient is 65 or older' : 'patient is a young child');
+    }
+
+    const level = urgentHits.length ? 'High' : score >= 2 ? 'Medium' : 'Low';
+
+    const cats = new Set(need && need !== 'Other' ? [need] : []);
+    for (const [cat, words] of Object.entries(CATEGORIES)) {
+      if (words.some((w) => has(text, w))) cats.add(cat);
+    }
+    if (!cats.size) cats.add('General support');
+
+    const crisis = CRISIS.some((w) => has(text, w));
+    return { level, score, reasons, categories: [...cats], crisis };
+  }
+
+  /* ---------- FAQ knowledge base (used by chatbot and auto-replies) ---------- */
+  const FAQS = [
+    { id: 'services', q: 'What help does Sevai offer?', k: ['service', 'offer', 'provide', 'what do you do', 'what help', 'kind of help', 'types of help'],
+      a: 'We help patients and families with free doctor consultations, medicines, blood donor matching, transport to hospital, elder care visits and emotional support. We also help families apply for government health schemes and hospital fee waivers.' },
+    { id: 'request', q: 'How do I ask for help?', k: ['request', 'apply', 'need help', 'get help', 'ask for help', 'patient support', 'form'],
+      a: "Fill in the support form on this page with the patient's details and what you need. You'll get a reference number instantly, and a volunteer will call you, usually within 24 hours (within 2 hours if the request is urgent).",
+      action: { label: 'Open the support form', pick: 'support' } },
+    { id: 'volunteer', q: 'How can I volunteer?', k: ['volunteer', 'join', 'sign up', 'signup', 'register', 'contribute time', 'help out'],
+      a: "Choose \"Volunteer\" on the form and tell us your skills and when you're free. Doctors, nurses, drivers, counsellors, students and tech folks are all welcome. You'll get a short online orientation before your first shift.",
+      action: { label: 'Open the volunteer form', pick: 'volunteer' } },
+    { id: 'free', q: 'Is the support free?', k: ['free', 'cost', 'charge', 'fee', 'pay', 'price'],
+      a: 'Yes. All our services are free for patients. Volunteers are never allowed to ask you for money. If anyone does, please report it to us.' },
+    { id: 'time', q: 'How soon will someone call me?', k: ['how long', 'how soon', 'when will', 'call back', 'callback', 'response time', 'wait'],
+      a: 'Urgent requests get a call back within 2 hours, others within 24 to 48 hours. Our triage assistant reads every request and moves urgent ones to the top of the queue.' },
+    { id: 'blood', q: 'Can you find blood donors?', k: ['blood', 'donor', 'platelet', 'plasma'],
+      a: "Yes. We keep a network of registered donors. Send a support request with the patient's blood group, hospital name and number of units needed, and we'll contact matching donors nearby.",
+      action: { label: 'Request blood donors', pick: 'support' } },
+    { id: 'medicine', q: 'Can you help with medicines?', k: ['medicine', 'tablet', 'prescription', 'drug', 'insulin', 'pharmacy'],
+      a: "We run a medicine bank for patients who can't afford regular medicines. Send a request with a photo or list of the prescription and we'll check what we can supply." },
+    { id: 'documents', q: 'What documents do I need?', k: ['document', 'proof', 'aadhaar', 'papers', 'report', 'certificate'],
+      a: "Nothing is needed to send a request. When a volunteer calls, it helps to have the prescription or doctor's notes, any hospital bills, and an ID proof if you're applying for financial aid." },
+    { id: 'hours', q: 'When is the help desk open?', k: ['hours', 'open', 'timing', 'working days', 'weekend', 'sunday', 'holiday'],
+      a: 'Volunteers answer calls from 8 am to 8 pm, all seven days. You can send a request here any time, and it will be waiting in the queue when the team comes online.' },
+    { id: 'privacy', q: 'Is my information kept private?', k: ['privacy', 'private', 'safe', 'confidential', 'share my', 'data'],
+      a: 'Yes. Your details are seen only by our coordinators and the volunteer assigned to you, and are never shared with anyone else. (In this prototype, data is saved only in your own browser.)' },
+    { id: 'donate', q: 'How can I donate?', k: ['donate', 'donation', 'fund', 'sponsor', 'tax', '80g'],
+      a: "You can sponsor a patient's medicines, transport or tests. Send us a message using \"Ask a question\" and our team will share donation details and receipts.",
+      action: { label: 'Message the team', pick: 'contact' } },
+    { id: 'mental', q: 'Do you offer emotional support?', k: ['mental', 'stress', 'anxiety', 'depress', 'counsel', 'lonely', 'talk to someone', 'emotional'],
+      a: 'Yes. Our trained listening-line volunteers can call you for a private conversation. For round-the-clock support, you can also call Tele-MANAS on 14416 (free, 24x7).',
+      action: { label: 'Request a call', pick: 'support' } },
+  ];
+
+  function matchFaq(text) {
+    let best = null;
+    for (const faq of FAQS) {
+      const score = faq.k.reduce((s, kw) => s + (has(text, kw) ? (kw.includes(' ') ? 2 : 1) : 0), 0);
+      if (score > 0 && (!best || score > best.score)) best = { faq, score };
+    }
+    return best;
+  }
+
+  /* ---------- Auto-generated reply ---------- */
+  function makeReply(e) {
+    const first = e.name.split(/\s+/)[0];
+    const sign = '\n\nWarm regards,\nSevai Health Desk';
+
+    if (e.type === 'support') {
+      const t = e.triage;
+      const teams = joinList([...new Set(t.categories.map((c) => TEAMS[c] || TEAMS['General support']))]);
+      const ready = [...new Set(t.categories.map((c) => KEEP_READY[c]).filter(Boolean))];
+      let msg = `Hi ${first},\n\nThank you for contacting Sevai Health Desk. Your request ${e.id} has been received and marked ${t.level.toLowerCase()} priority.\n\nWe have shared it with our ${teams}. A volunteer will call you on ${e.phone} ${RESPONSE_TIME[t.level]}.`;
+      if (ready.length) msg += `\n\nTo help us move faster, please keep these ready:\n${ready.map((r) => '• ' + r).join('\n')}`;
+      if (t.level === 'High') msg += "\n\nIf the patient's condition gets worse before we call, dial 108 for an ambulance or go to the nearest hospital right away.";
+      if (t.crisis) msg += "\n\nYou don't have to handle this alone. You can talk to a trained counsellor right now on Tele-MANAS, 14416 (free, 24x7).";
+      return msg + sign;
+    }
+
+    if (e.type === 'volunteer') {
+      const programs = e.skills.map((s) => SKILL_PROGRAMS[s]).filter(Boolean);
+      return `Hi ${first},\n\nThank you for signing up to volunteer with Sevai (ref ${e.id}). Based on your skills, you'd be a great fit for ${joinList(programs)}.\n\nNext steps:\n• Our volunteer coordinator will call you within 3 days\n• You'll be invited to a 1-hour online orientation\n• We'll plan your first shift around your availability (${e.availability.toLowerCase()})${sign}`;
+    }
+
+    let msg = `Hi ${first},\n\nThanks for your message about "${e.subject}". Our team will reply within 2 working days (ref ${e.id}).`;
+    const m = matchFaq(`${e.subject} ${e.message}`);
+    if (m) msg += `\n\nIn the meantime, this might answer your question:\n${m.faq.q}\n${m.faq.a}`;
+    return msg + sign;
+  }
+
+  function buildEntry(d) {
+    const e = {
+      id: makeRef(),
+      createdAt: d.createdAt || new Date().toISOString(),
+      type: d.type,
+      name: d.name.trim(),
+      phone: d.phone,
+      email: d.email || '',
+      city: d.city,
+    };
+    if (d.type === 'support') {
+      Object.assign(e, { patientAge: d.patientAge, need: d.need, details: d.details });
+      e.triage = triage(d);
+    } else if (d.type === 'volunteer') {
+      Object.assign(e, { skills: d.skills || [], availability: d.availability, message: d.message || '' });
+    } else {
+      Object.assign(e, { subject: d.subject, message: d.message });
+    }
+    e.reply = makeReply(e);
+    return e;
+  }
+
+  /* ---------- Form ---------- */
+  const form = $('#mainForm');
+  const formWrap = $('#formWrap');
+  const result = $('#result');
+  const TITLES = { support: 'Request patient support', volunteer: 'Register as a volunteer', contact: 'Ask us a question' };
+  const BUTTONS = { support: 'Send request', volunteer: 'Register as a volunteer', contact: 'Send question' };
+
+  const currentType = () => ($('input[name="type"]:checked', form) || {}).value || 'support';
+
+  function setType(type) {
+    const radio = $(`input[name="type"][value="${type}"]`, form);
+    if (radio) radio.checked = true;
+    $$('.group', form).forEach((g) => {
+      const active = g.dataset.for === type;
+      g.hidden = !active;
+      $$('input, select, textarea', g).forEach((el) => { el.disabled = !active; });
+    });
+    $$('[data-field].invalid', form).forEach((f) => {
+      f.classList.remove('invalid');
+      const err = $('.err', f);
+      if (err) err.textContent = '';
+    });
+    $('#formTitle').textContent = TITLES[type];
+    $('#submitBtn').textContent = BUTTONS[type];
+  }
+
+  function showForm() {
+    result.hidden = true;
+    formWrap.hidden = false;
+  }
+
+  function setError(el, msg) {
+    const box = el.closest('[data-field]');
+    if (!box) return;
+    box.classList.toggle('invalid', Boolean(msg));
+    const err = $('.err', box);
+    if (err) err.textContent = msg || '';
+  }
+
+  function validate() {
+    let firstBad = null;
+    const fail = (el, msg) => { setError(el, msg); if (!firstBad) firstBad = el; };
+    const fields = $$('input, select, textarea', form).filter((el) => !el.disabled && el.name && el.type !== 'radio');
+    fields.forEach((el) => setError(el, ''));
+
+    for (const el of fields) {
+      if (el.type === 'checkbox') continue;
+      const v = el.value.trim();
+      if (el.required && !v) { fail(el, el.dataset.msg || 'This field is required'); continue; }
+      if (!v) continue;
+      if (el.name === 'phone' && !/^[6-9]\d{9}$/.test(normPhone(v))) fail(el, 'Enter a valid 10-digit mobile number');
+      else if (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) fail(el, 'Enter a valid email address, like name@example.com');
+      else if (el.name === 'patientAge' && !(Number.isInteger(+v) && +v >= 0 && +v <= 120)) fail(el, 'Enter an age between 0 and 120');
+      else if (el.minLength > 0 && v.length < el.minLength) fail(el, `Add a little more detail (at least ${el.minLength} characters)`);
+    }
+
+    if (currentType() === 'volunteer') {
+      const boxes = $$('input[name="skills"]', form);
+      if (!boxes.some((b) => b.checked)) fail(boxes[0], 'Pick at least one way you can help');
+    }
+    const consent = $('#consent');
+    if (!consent.checked) fail(consent, 'Tick this box so a volunteer can contact you');
+
+    if (firstBad) { firstBad.focus(); return false; }
+    return true;
+  }
+
+  function readForm() {
+    const fd = new FormData(form);
+    const d = {};
+    for (const [k, v] of fd.entries()) {
+      if (k !== 'skills' && k !== 'consent') d[k] = typeof v === 'string' ? v.trim() : v;
+    }
+    d.skills = fd.getAll('skills');
+    d.phone = normPhone(d.phone || '');
+    return d;
+  }
+
+  function renderResult(e) {
+    const heading = { support: 'Request received', volunteer: "You're registered", contact: 'Question sent' }[e.type];
+    let triageHtml = '';
+    if (e.type === 'support') {
+      const t = e.triage;
+      const lvl = t.level.toLowerCase();
+      triageHtml = `
+        <div class="triage-box level-${lvl}">
+          <p class="triage-title">Automatic triage</p>
+          <ul class="tags">
+            <li class="tag tag-${lvl}">${t.level} priority</li>
+            ${t.categories.map((c) => `<li class="tag">${esc(c)}</li>`).join('')}
+          </ul>
+          <p class="triage-why">${t.reasons.length ? 'Why: ' + esc(t.reasons.join('; ')) : 'No urgent warning signs found in the description.'}</p>
+        </div>`;
+    }
+    result.innerHTML = `
+      <div class="result-head"><h2>${heading}</h2><span class="ref">${esc(e.id)}</span></div>
+      ${triageHtml}
+      <p class="reply-label">Your automatic reply</p>
+      <div class="reply">${esc(e.reply)}</div>
+      <div class="result-actions">
+        <button type="button" class="btn btn-primary" id="againBtn">Send another</button>
+        <button type="button" class="btn btn-ghost" id="copyBtn">Copy reply</button>
+        <a class="btn btn-ghost" href="#dashboard">View in dashboard</a>
+      </div>`;
+
+    $('#againBtn').addEventListener('click', () => {
+      showForm();
+      $('#name').focus();
+    });
+    $('#copyBtn').addEventListener('click', async (ev) => {
+      const btn = ev.currentTarget;
+      try {
+        await navigator.clipboard.writeText(e.reply);
+        btn.textContent = 'Copied';
+      } catch {
+        btn.textContent = 'Copy not available';
+      }
+      setTimeout(() => { btn.textContent = 'Copy reply'; }, 2000);
+    });
+  }
+
+  form.addEventListener('change', (ev) => {
+    if (ev.target.name === 'type') setType(ev.target.value);
+  });
+  form.addEventListener('input', (ev) => {
+    if (ev.target.closest('[data-field].invalid')) setError(ev.target, '');
+  });
+
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    if (!validate()) return;
+    const entry = buildEntry(readForm());
+    store.add(entry);
+    renderResult(entry);
+    form.reset();
+    setType(entry.type);
+    formWrap.hidden = true;
+    result.hidden = false;
+    result.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    result.focus({ preventScroll: true });
+    renderDashboard();
+  });
+
+  // Links and buttons that preselect a form type
+  document.addEventListener('click', (ev) => {
+    const link = ev.target.closest('[data-pick]');
+    if (!link) return;
+    setType(link.dataset.pick);
+    showForm();
+  });
+
+  /* ---------- Dashboard ---------- */
+  const TYPE_LABEL = { support: 'Patient support', volunteer: 'Volunteer', contact: 'Question' };
+
+  function topCounts(items, n) {
+    const counts = {};
+    items.forEach((x) => { counts[x] = (counts[x] || 0) + 1; });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, n);
+  }
+
+  function summarize(list) {
+    if (!list.length) return 'Nothing to summarise yet. As submissions come in, this panel writes a short overview for the coordinator.';
+    const sup = list.filter((e) => e.type === 'support');
+    const vol = list.filter((e) => e.type === 'volunteer');
+    const con = list.filter((e) => e.type === 'contact');
+    const dayAgo = Date.now() - 864e5;
+    const recent = list.filter((e) => new Date(e.createdAt).getTime() > dayAgo).length;
+    const parts = [`${plural(list.length, 'submission')} so far, ${recent} in the last 24 hours.`];
+
+    if (sup.length) {
+      const high = sup.filter((e) => e.triage.level === 'High');
+      const med = sup.filter((e) => e.triage.level === 'Medium');
+      const low = sup.length - high.length - med.length;
+      parts.push(`${plural(sup.length, 'patient support request')}: ${high.length} high, ${med.length} medium and ${low} low priority.`);
+      const top = topCounts(sup.flatMap((e) => e.triage.categories), 2);
+      parts.push(`Most requested help: ${joinList(top.map(([c, n]) => `${c.toLowerCase()} (${n})`))}.`);
+      if (high.length) parts.push(`Call first: ${joinList(high.slice(0, 3).map((e) => `${e.name} (${e.id})`))}.`);
+    }
+    if (vol.length) {
+      const skills = topCounts(vol.flatMap((e) => e.skills), 2).map(([s]) => s.toLowerCase());
+      parts.push(`${plural(vol.length, 'new volunteer')}, mostly offering ${joinList(skills)}.`);
+    }
+    if (con.length) parts.push(`${plural(con.length, 'question')} waiting for a reply.`);
+    return parts.join(' ');
+  }
+
+  function rowHtml(e) {
+    let details = '';
+    if (e.type === 'support') details = `${esc(e.need)}<span class="cell-sub">${esc(truncate(e.details, 90))}</span>`;
+    else if (e.type === 'volunteer') details = `${esc(e.skills.join(', '))}<span class="cell-sub">${esc(e.availability)}</span>`;
+    else details = `${esc(e.subject)}<span class="cell-sub">${esc(truncate(e.message, 90))}</span>`;
+
+    const priority = e.triage
+      ? `<span class="tag tag-${e.triage.level.toLowerCase()}">${e.triage.level}</span>`
+      : '<span class="cell-sub">Not needed</span>';
+
+    return `<tr>
+      <td><b>${esc(e.id)}</b><span class="cell-sub">${esc(fmtDate(e.createdAt))}</span></td>
+      <td>${TYPE_LABEL[e.type]}</td>
+      <td>${esc(e.name)}<span class="cell-sub">${esc(e.phone)}, ${esc(e.city)}</span></td>
+      <td>${details}</td>
+      <td>${priority}</td>
+    </tr>`;
+  }
+
+  function renderDashboard() {
+    const list = store.all();
+    const sup = list.filter((e) => e.type === 'support');
+    const high = sup.filter((e) => e.triage && e.triage.level === 'High');
+    const vol = list.filter((e) => e.type === 'volunteer');
+
+    $('#stats').innerHTML = [
+      ['Total submissions', list.length, ''],
+      ['Support requests', sup.length, ''],
+      ['High priority', high.length, high.length ? 'alert' : ''],
+      ['Volunteers', vol.length, ''],
+    ].map(([label, value, cls]) => `<div class="stat ${cls}"><b>${value}</b><span>${label}</span></div>`).join('');
+
+    $('#summaryText').textContent = summarize(list);
+
+    const filter = $('#filter').value;
+    const rows = list.filter((e) => (filter === 'all' ? true : filter === 'high' ? e.triage && e.triage.level === 'High' : e.type === filter));
+    $('#rows').innerHTML = rows.length
+      ? rows.map(rowHtml).join('')
+      : `<tr><td colspan="5" class="empty">${list.length ? 'No submissions match this filter.' : 'No submissions yet. Send a request above, or load sample data to try the dashboard.'}</td></tr>`;
+  }
+
+  const SAMPLES = [
+    { type: 'support', name: 'Arjun Menon', phone: '9123456780', city: 'Kochi', patientAge: '29', need: 'Blood donation', hoursAgo: 1,
+      details: 'Urgent: my brother is in the ICU after a road accident and needs 2 units of O negative blood today.' },
+    { type: 'support', name: 'Lakshmi Raman', phone: '9876543210', city: 'Madurai', patientAge: '68', need: 'Transport', hoursAgo: 3,
+      details: 'My mother needs dialysis three times a week and we cannot afford the auto fare to the hospital anymore.' },
+    { type: 'contact', name: 'Ravi Kumar', phone: '9555566666', city: 'Pune', subject: 'Donating to Sevai', hoursAgo: 6,
+      message: 'How can I donate money for medicines? Do you give tax receipts?' },
+    { type: 'support', name: 'Fathima Begum', phone: '9988776655', city: 'Hyderabad', patientAge: '34', need: 'Medicines', hoursAgo: 20,
+      details: 'I need insulin for my diabetes but I am running out and the pharmacy near me is very expensive.' },
+    { type: 'volunteer', name: 'Karthik S', phone: '9000011111', city: 'Coimbatore', skills: ['Driving', 'Tech'], availability: 'Weekends', hoursAgo: 30,
+      message: 'I have a car and can drive patients on Saturdays.' },
+    { type: 'volunteer', name: 'Dr. Priya Nair', phone: '9444455555', city: 'Bengaluru', skills: ['Medical', 'Counselling'], availability: 'Weekday evenings', hoursAgo: 50,
+      message: '' },
+  ];
+
+  $('#sampleBtn').addEventListener('click', () => {
+    const now = Date.now();
+    const samples = SAMPLES.map((s) => buildEntry({ ...s, createdAt: new Date(now - s.hoursAgo * 36e5).toISOString() }));
+    const list = [...store.all(), ...samples].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    store.save(list);
+    renderDashboard();
+  });
+
+  $('#clearBtn').addEventListener('click', () => {
+    if (!store.all().length) return;
+    if (window.confirm('Delete all submissions saved in this browser? This cannot be undone.')) {
+      store.save([]);
+      renderDashboard();
+    }
+  });
+
+  $('#exportBtn').addEventListener('click', () => {
+    const list = store.all();
+    if (!list.length) { window.alert('There is nothing to export yet. Add a submission or load sample data first.'); return; }
+    const cols = ['id', 'createdAt', 'type', 'name', 'phone', 'email', 'city', 'priority', 'categories', 'need', 'details', 'skills', 'availability', 'subject', 'message'];
+    const value = (e, c) => {
+      if (c === 'priority') return e.triage ? e.triage.level : '';
+      if (c === 'categories') return e.triage ? e.triage.categories.join('; ') : '';
+      if (c === 'skills') return (e.skills || []).join('; ');
+      return e[c] ?? '';
+    };
+    const quote = (v) => `"${String(v).replace(/"/g, '""')}"`;
+    const csv = [cols.join(','), ...list.map((e) => cols.map((c) => quote(value(e, c))).join(','))].join('\n');
+    const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sevai-submissions.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+
+  $('#filter').addEventListener('change', renderDashboard);
+
+  /* ---------- FAQ chatbot ---------- */
+  const chatToggle = $('#chatToggle');
+  const chatPanel = $('#chatPanel');
+  const chatLog = $('#chatLog');
+  const chipsEl = $('#chips');
+  const chatInput = $('#chatInput');
+  const asked = new Set();
+  let greeted = false;
+
+  function addMsg(text, who, opts = {}) {
+    const div = document.createElement('div');
+    div.className = `msg ${who}${opts.warn ? ' warn' : ''}`;
+    div.textContent = text;
+    if (opts.action) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn btn-primary btn-sm';
+      btn.textContent = opts.action.label;
+      btn.addEventListener('click', () => {
+        setType(opts.action.pick);
+        showForm();
+        $('#request').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+        if (window.innerWidth < 700) closeChat();
+      });
+      div.appendChild(btn);
+    }
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function botSay(text, opts = {}) {
+    const typing = document.createElement('div');
+    typing.className = 'msg bot';
+    typing.innerHTML = '<span class="typing" aria-label="Assistant is typing"><i></i><i></i><i></i></span>';
+    chatLog.appendChild(typing);
+    chatLog.scrollTop = chatLog.scrollHeight;
+    setTimeout(() => {
+      typing.remove();
+      addMsg(text, 'bot', opts);
+    }, reduceMotion ? 0 : 450);
+  }
+
+  function answerFor(text) {
+    if (CRISIS.some((w) => has(text, w))) {
+      return {
+        text: "I'm really sorry you're going through this. Please talk to someone now: call Tele-MANAS on 14416 (free, 24x7), or 112 if you are in immediate danger. You can also send us a request and a counsellor will call you.",
+        warn: true, action: { label: 'Request a call back', pick: 'support' },
+      };
+    }
+    if (EMERGENCY_CHAT.some((w) => has(text, w))) {
+      return { text: 'This sounds like an emergency. Please call 108 for an ambulance or 112 right away. This desk is not an emergency service and cannot send help immediately.', warn: true };
+    }
+    if (/^\s*(hi|hello|hey|hii+|vanakkam|namaste|good (morning|afternoon|evening))\b/i.test(text)) {
+      return { text: 'Hello! Ask me anything about getting support, volunteering or donating, or tap one of the suggestions below.' };
+    }
+    if (/\b(thanks|thank you|thx|ty)\b/i.test(text)) return { text: "You're welcome. Take care!" };
+
+    const m = matchFaq(text);
+    if (m) {
+      asked.add(m.faq.id);
+      return { text: m.faq.a, action: m.faq.action };
+    }
+    return {
+      text: "I don't have an answer for that yet. Send your question through the form and a volunteer will reply within 2 working days.",
+      action: { label: 'Ask the team', pick: 'contact' },
+    };
+  }
+
+  function renderChips() {
+    const pool = FAQS.filter((f) => !asked.has(f.id)).slice(0, 4);
+    chipsEl.innerHTML = '';
+    pool.forEach((f) => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'chip';
+      chip.textContent = f.q;
+      chip.addEventListener('click', () => {
+        asked.add(f.id);
+        addMsg(f.q, 'user');
+        botSay(f.a, { action: f.action });
+        renderChips();
+      });
+      chipsEl.appendChild(chip);
+    });
+    chipsEl.hidden = !pool.length;
+  }
+
+  function openChat() {
+    chatPanel.hidden = false;
+    chatToggle.setAttribute('aria-expanded', 'true');
+    if (!greeted) {
+      greeted = true;
+      botSay("Hi! I'm Sevai's help assistant. I can answer common questions about our services, volunteering and how requests work. What would you like to know?");
+      renderChips();
+    }
+    chatInput.focus();
+  }
+
+  function closeChat() {
+    chatPanel.hidden = true;
+    chatToggle.setAttribute('aria-expanded', 'false');
+    chatToggle.focus();
+  }
+
+  chatToggle.addEventListener('click', () => (chatPanel.hidden ? openChat() : closeChat()));
+  $('#chatClose').addEventListener('click', closeChat);
+  $('#openChatAside').addEventListener('click', openChat);
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape' && !chatPanel.hidden) closeChat();
+  });
+
+  $('#chatForm').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
+    chatInput.value = '';
+    addMsg(text, 'user');
+    const reply = answerFor(text);
+    botSay(reply.text, reply);
+    renderChips();
+  });
+
+  /* ---------- Start ---------- */
+  setType('support');
+  renderDashboard();
+})();
+
+</script>
+</body>
+</html>
